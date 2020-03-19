@@ -6,7 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin
 class UHCPlugin : JavaPlugin() {
 
     override fun onEnable() {
-        // maintain a static instance of the plugin for the sake of convenience
+        // maintain a static instance of the plugin for the sake of convenience.
         instance = this
 
         getCommand("uhc").executor = UHCCommand()
