@@ -1,11 +1,8 @@
 name: UHCPlugin
-version: "1.0"
-author: Samboy063
+version: "2.0"
+authors: [Zudo, Samboy063]
 main: me.samboycoding.uhcplugin.UHCPlugin
 commands:
-  start:
-    description: "Starts the game"
-    usage: "/start"
-  disableamnesty:
-    description: "Disables no-pvp"
-    usage: "/disableamnesty"
+  uhc:
+    description: The main UHC command
+    permission: uhc.admin
