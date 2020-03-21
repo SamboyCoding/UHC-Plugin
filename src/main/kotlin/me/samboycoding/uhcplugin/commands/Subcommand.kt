@@ -6,6 +6,7 @@ import org.bukkit.entity.Player
 abstract class Subcommand {
 
     abstract val description: String
+    abstract val usage: String
 
     abstract fun execute(sender: CommandSender?, args: List<String>?)
 }

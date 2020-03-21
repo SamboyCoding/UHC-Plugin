@@ -5,13 +5,13 @@ import me.samboycoding.uhcplugin.commands.Subcommand
 import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
 
-class StartSubcommand : Subcommand() {
+class StopSubcommand : Subcommand() {
 
-    override val description: String = "Starts the game immediately."
-    override val usage: String = "start"
+    override val description: String = "Stops the game immediately."
+    override val usage: String = "stop"
 
     override fun execute(sender: CommandSender?, args: List<String>?) {
-        sender?.sendMessage("${ChatColor.GREEN}Starting the game!")
-        UHCPlugin.instance.game.isRunning = true
+        sender?.sendMessage("${ChatColor.RED}Stopping the game!")
+        UHCPlugin.instance.game.isRunning = false
     }
 }

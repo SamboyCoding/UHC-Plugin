@@ -1,0 +1,5 @@
+game:
+  # Use 0 for random seed
+  seed: 0
+  # The name of the world to be used during the game. Will be deleted / recreated as required.
+  game_world: 'uhc'
