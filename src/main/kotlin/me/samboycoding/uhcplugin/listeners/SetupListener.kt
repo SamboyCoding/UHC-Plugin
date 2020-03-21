@@ -2,6 +2,7 @@ package me.samboycoding.uhcplugin.listeners
 
 import me.samboycoding.uhcplugin.UHCPlugin
 import me.samboycoding.uhcplugin.events.GameStartEvent
+import me.samboycoding.uhcplugin.events.GameStopEvent
 import org.bukkit.ChatColor
 import org.bukkit.Location
 import org.bukkit.World
@@ -17,7 +18,7 @@ class SetupListener : Listener {
 
     @EventHandler
     fun onStart(event: GameStartEvent) {
-        UHCPlugin.instance.server.broadcastMessage("${ChatColor.YELLOW}UHC is starting now - please wait a moment!")
+        UHCPlugin.instance.server.broadcastMessage("${ChatColor.YELLOW}UHC is starting now!")
 
         val log: Logger = UHCPlugin.instance.logger
 
@@ -48,6 +49,17 @@ class SetupListener : Listener {
 
         log.info("Moving players to game world")
         UHCPlugin.instance.server.onlinePlayers.forEach { it.teleport(world.spawnLocation) }
+    }
+
+    @EventHandler
+    fun onStop(event: GameStopEvent) {
+        UHCPlugin.instance.server.broadcastMessage("${ChatColor.YELLOW}UHC is over!")
+
+        val log: Logger = UHCPlugin.instance.logger
+
+        log.info("Removing players from game worlds")
+        val tpLocation: Location = UHCPlugin.instance.server.worlds[0].spawnLocation
+        UHCPlugin.instance.server.onlinePlayers.forEach { it.teleport(tpLocation) }
     }
 
     private fun createWorld(name: String, env: World.Environment, seed: Long): World {

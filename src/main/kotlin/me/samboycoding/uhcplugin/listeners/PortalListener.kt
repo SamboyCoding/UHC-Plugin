@@ -21,7 +21,6 @@ class PortalListener : Listener {
                         event.player.location.y,
                         event.player.location.z
                 ))
-                UHCPlugin.instance.server.broadcastMessage(destinationPortal.toString())
                 event.to = destinationPortal
                 UHCPlugin.instance.server.broadcastMessage("${ChatColor.YELLOW}${event.player.name} has entered the Nether!")
             } else if (event.cause == PlayerTeleportEvent.TeleportCause.END_PORTAL) {
