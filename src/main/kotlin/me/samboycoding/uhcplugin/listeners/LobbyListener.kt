@@ -6,6 +6,7 @@ import me.samboycoding.uhcplugin.events.GameStopEvent
 import me.samboycoding.uhcplugin.game.Team
 import net.minecraft.server.v1_8_R3.EnchantmentProtection
 import org.bukkit.ChatColor
+import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
@@ -14,6 +15,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerPickupItemEvent
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
@@ -26,6 +28,7 @@ class LobbyListener : Listener {
         if (!UHCPlugin.instance.game.isRunning) {
             UHCPlugin.instance.logger.info("Player joined, handling inventory")
             setupInventory(event.player)
+            event.player.gameMode = GameMode.ADVENTURE
         }
     }
 
@@ -45,6 +48,14 @@ class LobbyListener : Listener {
             event.isCancelled = true
         }
     }
+
+    @EventHandler
+    fun onPickup(event: PlayerPickupItemEvent) {
+        if (!UHCPlugin.instance.game.isRunning) {
+            event.isCancelled = true
+        }
+    }
+
 
     @EventHandler
     fun onGameStart(event: GameStartEvent) {

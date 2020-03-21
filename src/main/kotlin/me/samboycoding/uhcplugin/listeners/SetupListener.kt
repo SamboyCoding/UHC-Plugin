@@ -3,15 +3,14 @@ package me.samboycoding.uhcplugin.listeners
 import me.samboycoding.uhcplugin.UHCPlugin
 import me.samboycoding.uhcplugin.events.GameStartEvent
 import me.samboycoding.uhcplugin.events.GameStopEvent
-import org.bukkit.ChatColor
-import org.bukkit.Location
-import org.bukkit.World
-import org.bukkit.WorldCreator
+import org.bukkit.*
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import java.io.File
 import java.util.*
 import java.util.logging.Logger
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 
 class SetupListener : Listener {
@@ -49,6 +48,22 @@ class SetupListener : Listener {
 
         log.info("Moving players to game world")
         UHCPlugin.instance.server.onlinePlayers.forEach { it.teleport(world.spawnLocation) }
+
+        log.info("Spreading uwu")
+        spreadPlayers(world)
+
+        log.info("Healing players")
+        UHCPlugin.instance.server.onlinePlayers.forEach {
+            if (UHCPlugin.instance.game.getPlayerTeam(it) != null)
+                it.gameMode = GameMode.SURVIVAL
+            else
+                it.gameMode = GameMode.SPECTATOR
+
+            it.health = it.maxHealth
+            it.foodLevel = 20
+        }
+
+        UHCPlugin.instance.server.broadcastMessage("${ChatColor.YELLOW}The grace period begins now. Good luck!")
     }
 
     @EventHandler
@@ -74,5 +89,53 @@ class SetupListener : Listener {
         worldCreator.environment(env)
 
         return UHCPlugin.instance.server.createWorld(worldCreator)
+    }
+
+    private fun spreadPlayers(world: World) {
+        val chosenLocations = arrayListOf<Location>()
+        val minDistance = 1000
+
+        UHCPlugin.instance.game.teams.forEach { team ->
+            if (team.players.isEmpty()) { // skip empty teams
+                return
+            }
+
+            //Choose a location
+            var x: Int
+            var y: Int
+            var z: Int
+
+            do {
+                x = kotlin.random.Random.nextInt(-4900, 4900)
+                z = kotlin.random.Random.nextInt(-4900, 4900)
+
+                y = world.getHighestBlockYAt(x, z)
+            } while (chosenLocations.any {
+                        pythagoreanDistanceBetween(
+                                x.toDouble(),
+                                it.x,
+                                z.toDouble(),
+                                it.z
+                        ) < minDistance
+                    })
+
+            //Got a location
+            val block = world.getBlockAt(x, y, z)
+
+            block.type = Material.OBSIDIAN
+
+            val location = Location(world, x.toDouble(), (y + 1).toDouble(), z.toDouble())
+
+            team.players.forEach {
+                it.teleport(location)
+            }
+            chosenLocations.add(location)
+
+            UHCPlugin.instance.logger.info("${team.name} => $location")
+        }
+    }
+
+    private fun pythagoreanDistanceBetween(x1: Double, z1: Double, x2: Double, z2: Double): Double {
+        return sqrt((x2 - x1).pow(2) + (z2 - z1).pow(2))
     }
 }

@@ -9,3 +9,6 @@ game:
   teams: 15
   # How many players in a team
   team_size: 2
+
+  # Border radius (don't have it too small or you dumb dumb)
+  border_radius: 5000
