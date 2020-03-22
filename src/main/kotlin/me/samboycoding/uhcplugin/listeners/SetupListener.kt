@@ -74,7 +74,10 @@ class SetupListener : Listener {
 
         log.info("Removing players from game worlds")
         val tpLocation: Location = UHCPlugin.instance.server.worlds[0].spawnLocation
-        UHCPlugin.instance.server.onlinePlayers.forEach { it.teleport(tpLocation) }
+        UHCPlugin.instance.server.onlinePlayers.forEach {
+            it.teleport(tpLocation)
+            it.gameMode = GameMode.ADVENTURE
+        }
     }
 
     private fun createWorld(name: String, env: World.Environment, seed: Long): World {

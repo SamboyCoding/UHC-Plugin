@@ -1,4 +1,4 @@
-package me.samboycoding.uhcplugin.types
+package me.samboycoding.uhcplugin.utils
 
 import org.bukkit.ChatColor
 
@@ -22,5 +22,4 @@ object Colours {
             ColourData("Red", ChatColor.DARK_RED, 14),
             ColourData("Black", ChatColor.BLACK, 15)
     )
-
 }

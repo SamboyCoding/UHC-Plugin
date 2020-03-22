@@ -1,7 +1,8 @@
 package me.samboycoding.uhcplugin.game
 
 import me.samboycoding.uhcplugin.UHCPlugin
-import me.samboycoding.uhcplugin.types.Colours
+import me.samboycoding.uhcplugin.events.PlayerTeamSwitchEvent
+import me.samboycoding.uhcplugin.utils.Colours
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import java.util.*
@@ -16,6 +17,7 @@ data class Team(var name: String, var colour: Colours.ColourData) {
 
     fun addPlayer(player: Player) {
         playerIDs.add(player.uniqueId)
+        UHCPlugin.instance.server.pluginManager.callEvent(PlayerTeamSwitchEvent(player, this))
         setNameColour(player)
     }
 

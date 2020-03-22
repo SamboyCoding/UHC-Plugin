@@ -12,3 +12,6 @@ game:
 
   # Border radius (don't have it too small or you dumb dumb)
   border_radius: 5000
+
+  # Scoreboard title (shown above game stats) - use & for colour and formatting codes (https://wiki.ess3.net/mc/)
+  scoreboard_title: '&c&lUHC'

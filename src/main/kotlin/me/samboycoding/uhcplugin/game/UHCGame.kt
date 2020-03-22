@@ -3,7 +3,7 @@ package me.samboycoding.uhcplugin.game
 import me.samboycoding.uhcplugin.UHCPlugin
 import me.samboycoding.uhcplugin.events.GameStartEvent
 import me.samboycoding.uhcplugin.events.GameStopEvent
-import me.samboycoding.uhcplugin.types.Colours
+import me.samboycoding.uhcplugin.utils.Colours
 import org.bukkit.entity.Player
 
 class UHCGame {
@@ -21,6 +21,13 @@ class UHCGame {
 
 
     val teams: HashSet<Team> = HashSet()
+
+    val playerCount: Int
+        get() {
+            return teams.fold(0, { acc, team ->
+                acc + team.playerIDs.size
+            })
+        }
 
     fun initialiseDefaultTeams(count: Int) {
         Colours.values.take(count).forEach {

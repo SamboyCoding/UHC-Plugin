@@ -1,6 +1,6 @@
 package me.samboycoding.uhcplugin.commands
 
-import me.samboycoding.uhcplugin.commands.subcommands.ConfigSubcommand
+import me.samboycoding.uhcplugin.commands.subcommands.ReloadConfigSubcommand
 import me.samboycoding.uhcplugin.commands.subcommands.StartSubcommand
 import me.samboycoding.uhcplugin.commands.subcommands.StopSubcommand
 import org.bukkit.ChatColor
@@ -13,7 +13,7 @@ class UHCCommand : CommandExecutor {
     private val subcommands = mapOf(
             "start" to StartSubcommand(),
             "stop" to StopSubcommand(),
-            "config" to ConfigSubcommand()
+            "reloadconfig" to ReloadConfigSubcommand()
     )
 
     override fun onCommand(sender: CommandSender?, command: Command?, label: String?, args: Array<String>): Boolean {
