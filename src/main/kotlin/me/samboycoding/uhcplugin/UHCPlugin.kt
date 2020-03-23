@@ -35,6 +35,7 @@ class UHCPlugin : JavaPlugin() {
         server.pluginManager.registerEvents(ScoreboardListener(), this)
         server.pluginManager.registerEvents(JoinLeaveMessagesListener(), this)
         server.pluginManager.registerEvents(CraftingListener(), this)
+        server.pluginManager.registerEvents(GameListener(), this)
 
         recipe.addGoldenHeadRecipe()
     }

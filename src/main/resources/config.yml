@@ -10,8 +10,11 @@ game:
   # How many players in a team
   team_size: 2
 
-  # Border radius (don't have it too small or you dumb dumb)
-  border_radius: 5000
+  # Initial order size (side length)
+  border_size: 10000
+
+  # Grace period length in minutes
+  gp_length: 60
 
   # Scoreboard title (shown above game stats) - use & for colour and formatting codes (https://wiki.ess3.net/mc/)
   scoreboard_title: '&c&lUHC'

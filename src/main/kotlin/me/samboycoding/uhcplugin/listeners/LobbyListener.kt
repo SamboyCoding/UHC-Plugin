@@ -26,8 +26,8 @@ class LobbyListener : Listener {
 
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
-//        UHCPlugin.instance.game.getPlayerTeam(event.player)?.setNameColour(event.player)
         if (!UHCPlugin.instance.game.isRunning) {
+            event.player.teleport(UHCPlugin.instance.server.worlds[0].spawnLocation)
             event.player.playerListName = "${ChatColor.GRAY}${ChatColor.ITALIC}${event.player.name}${ChatColor.RESET}"
             event.player.displayName = "${ChatColor.GRAY}${ChatColor.ITALIC}${event.player.name}${ChatColor.RESET}"
             UHCPlugin.instance.logger.info("Player joined, handling inventory")
@@ -123,7 +123,12 @@ class LobbyListener : Listener {
 
     @EventHandler
     fun onGameEnd(event: GameStopEvent) {
-        UHCPlugin.instance.server.onlinePlayers.forEach { setupInventory(it) }
+        UHCPlugin.instance.server.onlinePlayers.forEach {
+            setupInventory(it)
+            UHCPlugin.instance.game.getPlayerTeam(it)?.removePlayer(it)
+            it.playerListName = "${ChatColor.GRAY}${ChatColor.ITALIC}${it.name}${ChatColor.RESET}"
+            it.displayName = "${ChatColor.GRAY}${ChatColor.ITALIC}${it.name}${ChatColor.RESET}"
+        }
     }
 
     @EventHandler

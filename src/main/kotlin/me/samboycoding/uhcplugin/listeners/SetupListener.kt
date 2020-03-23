@@ -17,7 +17,11 @@ class SetupListener : Listener {
 
     @EventHandler
     fun onStart(event: GameStartEvent) {
-        UHCPlugin.instance.server.broadcastMessage("${ChatColor.YELLOW}UHC is starting now!")
+        UHCPlugin.instance.server.onlinePlayers.forEach {
+            @Suppress("DEPRECATION")
+            it.sendTitle("${ChatColor.GREEN}Get ready!", "${ChatColor.GREEN}UHC is starting now!")
+        }
+        UHCPlugin.instance.server.broadcastMessage("${ChatColor.YELLOW}Please wait while the world is generated.")
 
         val log: Logger = UHCPlugin.instance.logger
 
@@ -45,6 +49,9 @@ class SetupListener : Listener {
 
         val highestSpawnBlock: Location = world.getHighestBlockAt(0, 0).location
         world.setSpawnLocation(highestSpawnBlock.blockX, highestSpawnBlock.blockY, highestSpawnBlock.blockZ)
+
+        world.worldBorder.setCenter(0.0, 0.0)
+        world.worldBorder.size = UHCPlugin.instance.config.getDouble("game.border_size")
 
         log.info("Moving players to game world")
         UHCPlugin.instance.server.onlinePlayers.forEach { it.teleport(world.spawnLocation) }
