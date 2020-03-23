@@ -52,7 +52,7 @@ class SidebarManager {
 
     fun displayGameScoreboard(player: Player) {
         displaySidebarText(player, listOf(
-
+            "${ChatColor.YELLOW}"
         )
         )
     }

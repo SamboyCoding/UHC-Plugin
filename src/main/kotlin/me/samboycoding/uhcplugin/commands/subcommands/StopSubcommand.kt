@@ -11,7 +11,11 @@ class StopSubcommand : Subcommand() {
     override val usage: String = "stop"
 
     override fun execute(sender: CommandSender?, args: List<String>?) {
-        sender?.sendMessage("${ChatColor.RED}Stopping the game!")
-        UHCPlugin.instance.game.isRunning = false
+        if (!UHCPlugin.instance.game.isRunning) {
+            sender?.sendMessage("${ChatColor.RED}No game in progress.")
+        } else {
+            sender?.sendMessage("${ChatColor.RED}Stopping the game!")
+            UHCPlugin.instance.game.isRunning = false
+        }
     }
 }

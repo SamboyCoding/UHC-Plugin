@@ -11,7 +11,11 @@ class StartSubcommand : Subcommand() {
     override val usage: String = "start"
 
     override fun execute(sender: CommandSender?, args: List<String>?) {
-        sender?.sendMessage("${ChatColor.GREEN}Starting the game!")
-        UHCPlugin.instance.game.isRunning = true
+        if (UHCPlugin.instance.game.isRunning) {
+            sender?.sendMessage("${ChatColor.RED}Game is already in progress.")
+        } else {
+            sender?.sendMessage("${ChatColor.GREEN}Starting the game!")
+            UHCPlugin.instance.game.isRunning = true
+        }
     }
 }

@@ -26,8 +26,10 @@ class LobbyListener : Listener {
 
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
-        UHCPlugin.instance.game.getPlayerTeam(event.player)?.setNameColour(event.player)
+//        UHCPlugin.instance.game.getPlayerTeam(event.player)?.setNameColour(event.player)
         if (!UHCPlugin.instance.game.isRunning) {
+            event.player.playerListName = "${ChatColor.GRAY}${ChatColor.ITALIC}${event.player.name}${ChatColor.RESET}"
+            event.player.displayName = "${ChatColor.GRAY}${ChatColor.ITALIC}${event.player.name}${ChatColor.RESET}"
             UHCPlugin.instance.logger.info("Player joined, handling inventory")
             setupInventory(event.player)
             event.player.gameMode = GameMode.ADVENTURE
@@ -35,12 +37,28 @@ class LobbyListener : Listener {
     }
 
     @EventHandler
+    fun onLeave(event: PlayerQuitEvent) {
+        if (!UHCPlugin.instance.game.isRunning) {
+            UHCPlugin.instance.game.getPlayerTeam(event.player)?.removePlayer(event.player)
+        }
+    }
+
+    @EventHandler
     fun onClick(event: InventoryClickEvent) {
-        if (UHCPlugin.instance.game.isRunning || event.currentItem == null || event.currentItem.amount == 0) { return }
+        if (UHCPlugin.instance.game.isRunning || event.currentItem == null || event.currentItem.amount == 0) {
+            return
+        }
         val player: Player = event.whoClicked as Player
+
+        if (player.gameMode == GameMode.CREATIVE) {
+            return
+        }
+
         event.isCancelled = true
         val team: Team = UHCPlugin.instance.game.teams.first { it.colour.woolColourData == event.currentItem?.durability }
-        if (team.playerIDs.size >= UHCPlugin.instance.config.getInt("game.team_size")) { return }
+        if (team.playerIDs.size >= UHCPlugin.instance.config.getInt("game.team_size")) {
+            return
+        }
         UHCPlugin.instance.game.getPlayerTeam(player)?.removePlayer(player)
         team.addPlayer(player)
         setupInventory(player)
@@ -128,7 +146,7 @@ class LobbyListener : Listener {
             meta.displayName = "${team.colour.chatColourCode}${team.colour.name}"
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
             when {
-                 memberOfTeam -> {
+                memberOfTeam -> {
                     meta.lore = listOf("${ChatColor.GREEN}You are on this team")
                     meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true)
                 }
@@ -140,7 +158,7 @@ class LobbyListener : Listener {
                 }
             }
             stack.itemMeta = meta
-            player.inventory.setItem(9+i, stack)
+            player.inventory.setItem(9 + i, stack)
         }
     }
 
